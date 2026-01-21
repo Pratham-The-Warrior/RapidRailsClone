@@ -26,7 +26,7 @@
       | responds to frontend
 ```
 
-## Backend struture 
+## backend struture
 ```
 
 backend/
