@@ -60,7 +60,8 @@ frontend/
 ## API Layer
 
 ```
-src/api/routeApi.js
+src/api.js
+
 ```
 
 Responsibilities:
@@ -259,16 +260,3 @@ ResultsPage
 
 ---
 
-## Next Implementation Steps
-
-1. Create Vite project
-2. Create folder structure
-3. Build SearchForm UI
-4. Add validation
-5. Build Results UI
-6. Connect API
-7. Styling
-
----
-
-This structure ensures the frontend fully supports **all routing parameters** and integrates cleanly with the backend and C++ train engine while remaining simple and maintainable.
