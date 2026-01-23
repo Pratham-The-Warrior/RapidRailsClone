@@ -19,13 +19,12 @@
 
 ## Frontend
 
-- Handles UI and API calls only
-- Stores results in React state
-- Renders cards and timeline views
-- Optional:
-  - Theming
-  - Timeline animations
-  - Color-coded classes
+- **Premium UI**: IRCTC-inspired, modern design with glassmorphism and smooth animations.
+- **Search Cockpit**: Integrated form with real-time validation and station swap.
+- **Route Display**: Comprehensive summary and expandable breakdowns.
+- **User Profiles**: Slide-out drawer with passenger history and loyalty status.
+- **API Integration**: Connects to the backend via `/api/route`, with a robust **mock fallback** for seamless demonstration when the engine is offline.
+
 
 ## Optional Tools
 
