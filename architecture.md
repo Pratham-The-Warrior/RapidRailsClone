@@ -1,43 +1,38 @@
 Tentative Project Structure
 ```
-train_route_app/
+RapidRail/
 │
-├── train_engine/                  # C++ routing engine
-│   ├── data/trains/               # Hundreds of train JSON files
-│   │   ├── 12002.json
-│   │   └── ...
+├── engine/                        # C++ routing engine
+│   ├── data/
+│   │   └── trains.json            # Central train schedule data
 │   ├── include/
-│   │   ├── Models.h               # Train, Station, RouteNode
-│   │   ├── Graph.h                # Graph & Edge definitions
-│   │   ├── Dijkstra.h             # Shortest path algorithm
-│   │   └── JsonLoader.h           # Load train JSON files
+│   │   └── json.hpp               # nlohmann/json header
 │   ├── src/
-│   │   ├── Models.cpp
-│   │   ├── Graph.cpp
-│   │   ├── Dijkstra.cpp
-│   │   ├── JsonLoader.cpp
-│   │   └── main.cpp               # CLI entry point
-│   └── CMakeLists.txt
+│   │   └── train_engine.cpp       # Main logic
+│   └── utils/
+│       ├── graph.cpp/h            # Graph structures
+│       ├── dijkstra.cpp/h         # Shortest path algorithm
+│       └── time_utils.cpp/h       # Time conversion helpers
 │
 ├── backend/                       # Node.js / Express backend
-│   ├── app.js                     # Express app
-│   ├── package.json
-│   ├── routes/
-│   │   └── route.js               # /route endpoint
-│   └── utils/
-│       └── engineClient.js        # Calls C++ engine binary
+│   ├── src/
+│   │   ├── server.js              # Express app
+│   │   ├── engineBridge.js        # Calls C++ engine binary
+│   │   └── validator.js           # Input validation
+│   └── package.json
 │
-├── frontend/                       # React app
+├── frontend/                      # React app
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── SearchCockpit.jsx  # Main search form & logic
+│   │   │   ├── RouteCard.jsx      # Individual route display
+│   │   │   └── UserProfile.jsx    # User sidebar drawer
+│   │   ├── api.js                 # API client
+│   │   ├── App.jsx                # Main layout & state
+│   │   ├── index.css              # Global styles (Tailwind-style)
+│   │   └── main.jsx
 │   ├── package.json
-│   ├── public/index.html
-│   └── src/
-│       ├── index.js
-│       ├── App.js
-│       ├── components/
-│       │   ├── RouteForm.jsx      # IRCTC-style form
-│       │   └── RouteDisplay.jsx   # Display route
-│       └── api/
-│           └── engineClient.js   # Calls backend API
+│   └── vite.config.js
 │
 └── README.md
 ```

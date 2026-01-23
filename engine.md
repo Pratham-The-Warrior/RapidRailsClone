@@ -13,19 +13,16 @@ stdout JSON result
 ```
 engine/
 │
-├── train_engine.cpp          # Main C++ source file
-├── train_engine              # Compiled binary
+├── src/
+│   └── train_engine.cpp      # Main C++ source file
+├── bin/
+│   └── train_engine          # Compiled binary
 ├── data/
-│   └── trains.json           # Scraped Indian Railways data
+│   └── trains.json           # Indian Railways schedule data
 ├── include/
 │   └── json.hpp              # nlohmann/json header for JSON parsing
-├── CMakeLists.txt (optional) # If using CMake for build
-└── utils/                    # Optional helper files
-    ├── graph.h               # Graph structures (nodes, edges)
-    ├── graph.cpp
-    ├── dijkstra.h            # Dijkstra algorithm implementation
-    ├── dijkstra.cpp
-    ├── time_utils.h          # Time conversion / cross-midnight functions
-    └── time_utils.cpp
-
+└── utils/
+    ├── graph.h/cpp           # Graph structures (nodes, edges)
+    ├── dijkstra.h/cpp        # Dijkstra algorithm implementation
+    └── time_utils.h/cpp      # Time conversion / cross-midnight functions
 ```

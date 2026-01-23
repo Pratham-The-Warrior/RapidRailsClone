@@ -4,15 +4,13 @@ A precise, production-ready frontend project structure for the Train Route Optim
 
 This structure explicitly supports **all search parameters**:
 
-* From station
-* To station
+* Source station
+* Destination station
 * Travel date
 * Maximum switches
 * Maximum wait time
 * Preferred classes
 * Sorting preference (time / switches)
-
-and is optimized for clean UI, validation, API integration, and future extensibility.
 
 ---
 
@@ -25,238 +23,65 @@ frontend/
 │   └── index.html
 │
 ├── src/
-│   ├── api.js
-│   ├── App.jsx
-│   ├── main.jsx
-│
-│   ├── SearchForm.jsx
-│   ├── ResultsList.jsx
-│   ├── RouteCard.jsx
-│
-│   ├── utils.js
-│   └── styles.css
+│   ├── components/
+│   │   ├── SearchCockpit.jsx      # Main search form with validation
+│   │   ├── RouteCard.jsx          # Summarized and expanded route view
+│   │   └── UserProfile.jsx        # Premium sidebar drawer
+│   │
+│   ├── api.js                     # API communication layer
+│   ├── App.jsx                    # Root component with search logic
+│   ├── index.css                  # Comprehensive design system
+│   └── main.jsx                   # Entry point
 │
 ├── package.json
 └── vite.config.js
-
 ```
 
 ---
 
-## Parameter Mapping (Frontend → Engine)
+## Component Architecture
 
-| Parameter           | Component        | Field Name       |
-| ------------------- | ---------------- | ---------------- |
-| Source station      | StationSelector  | from             |
-| Destination station | StationSelector  | to               |
-| Travel date         | DateSelector     | date             |
-| Maximum switches    | SwitchLimitInput | max_switches     |
-| Maximum wait time   | WaitTimeInput    | max_wait_minutes |
-| Preferred classes   | ClassSelector    | classes          |
-| Sorting             | SortSelector     | sort_by          |
+### SearchCockpit.jsx
 
----
-
-## API Layer
-
-```
-src/api.js
-
-```
-
-Responsibilities:
-
-* Build request payload
-* Call backend `/api/route`
-* Handle timeouts
-* Parse engine output
-
-Example payload:
-
-```json
-{
-  "from": "CSTM",
-  "to": "NDLS",
-  "date": "2026-01-23",
-  "max_switches": 2,
-  "max_wait_minutes": 120,
-  "classes": ["2A", "3A"],
-  "sort_by": "time"
-}
-```
-
----
-
-## Search UI Architecture
-
-### SearchForm.jsx
-
-Controls entire form state:
-
-```js
-{
-  from: "",
-  to: "",
-  date: "",
-  maxSwitches: 2,
-  maxWait: 120,
-  classes: [],
-  sortBy: "time"
-}
-```
-
-Subcomponents handle individual parameters.
-
----
-
-### StationSelector.jsx
-
-* Autocomplete dropdown
-* Validates station code
-* Prevents same source & destination
-
----
-
-### DateSelector.jsx
-
-* Calendar picker
-* Prevents past dates
-
----
-
-### SwitchLimitInput.jsx
-
-* Numeric input / dropdown
-* Range: 0–5
-
----
-
-### WaitTimeInput.jsx
-
-* Numeric input (minutes)
-* Range: 0–720
-
----
-
-### ClassSelector.jsx
-
-* Checkbox group
-* 2A / 3A / SL / CC etc
-
----
-
-### SortSelector.jsx
-
-Options:
-
-* `time` → shortest total duration
-* `switches` → minimum transfers
-
----
-
-## Results UI Architecture
-
-### RouteResults.jsx
-
-* Receives optimized routes array
-* Renders RouteCard list
-
----
+The primary search interface. It manages:
+* **Form State**: `from`, `to`, `date`, `maxSwitches`, `maxWait`, `classes`, `sortBy`.
+* **Validation**: Checks for same source/destination and ensures classes are selected.
+* **Layout**: Horizontal station group with swap capability, options row, and class chips.
 
 ### RouteCard.jsx
 
-Displays:
+Handles the rendering of travel options:
+* **Route Summary**: Displays duration, switch count, timeline (times/codes), and dates.
+* **Expanded View**: Shows a detailed breakdown of each segment (train info, durations, wait times).
+* **States**: Collapsed for easy scanning, expanded for journey planning.
 
-* Total travel time
-* Number of switches
-* Departure date
-* Arrival date
-* Expandable list of segments
+### UserProfile.jsx
 
----
-
-### RouteSegment.jsx
-
-For each train segment:
-
-* Train number
-* From station
-* To station
-* Departure time
-* Arrival time
-* Waiting time
+A slide-out drawer providing:
+* **User Identity**: Avatar, name, and loyalty status (e.g., Gold Member).
+* **Quick Tools**: PNR status checker.
+* **History**: Upcoming journey summaries.
+* **Saved Data**: Quick access to passenger profiles.
 
 ---
 
-### SummaryBar.jsx
+## API & Data Flow
 
-* Displays applied filters
-* Shows computation time
+### api.js
+* Uses `fetch` to POST search parameters to `/api/route`.
+* Handles error responses and JSON parsing.
 
----
-
-## State & Logic Handling
-
-```
-useRouteSearch.js
-```
-
-Handles:
-
-* Form submission
-* API calls
-* Loading state
-* Error state
-* Result storage
+### App.jsx (State Central)
+* Manages `routes`, `loading`, `searched`, and `error` states.
+* Executes the search flow: Validates → Calls API → Updates UI.
+* **Mock Fallback**: Implements a dedicated fallback mechanism that provides dynamic, realistic train routes if the backend API is unreachable or returns an error. This ensures a consistent demo experience even without the routing engine.
 
 ---
 
-## Validation Rules
+## Design System
 
-Located in:
-
-```
-src/utils/validators.js
-```
-
-Rules:
-
-* Source != Destination
-* Date >= today
-* max_switches >= 0
-* max_wait_minutes >= 0
-* At least 1 class selected
-
----
-
-## Data Flow
-
-```
-User Input
-   ↓
-SearchForm
-   ↓
-useRouteSearch
-   ↓
-routeApi
-   ↓
-Backend
-   ↓
-Train Engine
-   ↓
-ResultsPage
-```
-
----
-
-## Design Goals
-
-* Parameter-complete
-* Engine-compatible
-* Form-first UI
-* Mobile responsive
-* Minimal state complexity
-* Easy to test
-
----
-
+The frontend uses a custom design system defined in `index.css`, featuring:
+* **Brand Colors**: `--ir-blue` (#003366) and `--ir-orange` (#FF6B00).
+* **Glassmorphism**: Translucent cards with backdrop blur.
+* **Micro-interactions**: Hover effects, smooth transitions for drawers and cards.
+* **Responsive Layout**: Adapts from mobile-first timeline to desktop dashboards.
