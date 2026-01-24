@@ -11,11 +11,12 @@
 - Communicates **only** via JSON over `stdin` / `stdout`
 - Contains all algorithmic logic
 
-## Backend
+## Backend (Modular Architecture)
 
-- Thin bridge; does **not** compute routes
-- Validates all frontend input
-- Provides security and controlled execution of the C++ binary
+- **Entry Point**: `server.js` manages the Express application.
+- **Security**: `middleware/` handles schema validation and error protection.
+- **Orchestration**: `controllers/` and `services/` manage data flow and process isolation.
+- **Bridge**: Communicates with the C++ engine via `services/engineBridge.js`.
 
 ## Frontend
 

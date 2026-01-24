@@ -192,13 +192,18 @@ Even if a train initially moves away from the destination, it is retained in the
 ## ✅ Summary
 
 ```
-Frontend (React)
-        ↓
+Frontend (React SPA)
+        ↓ JSON Request
 Backend (Node.js API)
+    - Middleware (Validation)
+    - Controller (Request Routing)
+    - Service (Engine Bridge)
+        ↓ IPC (stdin)
+C++ Train Engine (Dijkstra)
+        ↓ IPC (stdout)
+Backend Response
         ↓
-C++ Train Engine
-        ↓
-JSON train data (files)
+Frontend Display
 
 ```
 

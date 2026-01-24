@@ -14,11 +14,15 @@ RapidRail/
 │       ├── dijkstra.cpp/h         # Shortest path algorithm
 │       └── time_utils.cpp/h       # Time conversion helpers
 │
-├── backend/                       # Node.js / Express backend
+├── backend/                       # Node.js / Express backend (Modular)
 │   ├── src/
-│   │   ├── server.js              # Express app
-│   │   ├── engineBridge.js        # Calls C++ engine binary
-│   │   └── validator.js           # Input validation
+│   │   ├── server.js              # Entry point
+│   │   ├── routes/                # API route definitions
+│   │   ├── controllers/           # Request handling logic
+│   │   ├── services/              # Business logic & Engine Bridge
+│   │   ├── middleware/            # Validation & Error handling
+│   │   └── config/                # Constants & Environment config
+│   ├── tests/                     # Unit & Integration tests
 │   └── package.json
 │
 ├── frontend/                      # React app
